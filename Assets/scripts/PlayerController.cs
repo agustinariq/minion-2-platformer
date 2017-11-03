@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
 	public float speed = 20f;
 	public float maxSpeed = 5f;
 	public bool grounded;
+	public float jumpPower = 6.5f;
+	private bool jump;
 
 	private Rigidbody2D rigidBody;
 	private Animator animator;
@@ -16,7 +18,11 @@ public class PlayerController : MonoBehaviour {
 		rigidBody = GetComponent<Rigidbody2D> ();
 		animator = GetComponent<Animator> ();
 	}
-	
+
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.UpArrow) && grounded) { jump = true; }
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		UpdateAnimationVariables ();
@@ -24,6 +30,10 @@ public class PlayerController : MonoBehaviour {
 		LimitVelocity ();
 		FacingDirectrion ();
 
+		if (jump) {
+			rigidBody.AddForce (Vector2.up * jumpPower, ForceMode2D.Impulse);
+			jump = false;
+		}
 
 		//Debug.Log (animator.GetBool("grounded"));
 		//Debug.Log (rigidBody.velocity.x);
