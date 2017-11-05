@@ -42,10 +42,18 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D col){
 		if (col.gameObject.tag == "ground") { grounded = true; }
+		if (col.gameObject.tag == "platform") { 
+			gameObject.transform.parent = col.transform;
+			grounded = true;
+		}
 	}
 
 	void OnCollisionExit2D(Collision2D col){
 		if (col.gameObject.tag == "ground") { grounded = false; }
+		if (col.gameObject.tag == "platform") { 
+			gameObject.transform.parent = null;
+			grounded = false; 
+		}
 	}
 
 	// animation control
