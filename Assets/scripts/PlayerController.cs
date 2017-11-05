@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (jump) {
 			rigidBody.AddForce (Vector2.up * jumpPower, ForceMode2D.Impulse);
+			Debug.Log (Vector2.up * jumpPower);
 			jump = false;
 		}
 
