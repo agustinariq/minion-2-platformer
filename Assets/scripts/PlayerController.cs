@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public float jumpPower = 6.5f;
 	private bool jump;
 	public int hearts = 1;
+	public int coins = 0;
 
 	private Rigidbody2D rigidBody;
 	private Animator animator;
@@ -21,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.UpArrow) && grounded) { jump = true; }
+		if (Input.GetKeyDown (KeyCode.Space) && grounded) { jump = true; }
 	}
 
 	// Update is called once per frame
@@ -31,16 +32,24 @@ public class PlayerController : MonoBehaviour {
 		LimitVelocity ();
 		FacingDirectrion ();
 		CheckDeath ();
-		Debug.Log (hearts);
+		Debug.Log (coins);
 
 		if (jump) {
+			SoundManager.PlaySound ("jump");
 			rigidBody.AddForce (Vector2.up * jumpPower, ForceMode2D.Impulse);
-			Debug.Log (Vector2.up * jumpPower);
 			jump = false;
 		}
 
 		//Debug.Log (animator.GetBool("grounded"));
 		//Debug.Log (rigidBody.velocity.x);
+	}
+
+	void OnTriggerEnter2D(Collision2D col){
+		if (col.gameObject.CompareTag ("coin")) {
+			SoundManager.PlaySound ("coin");
+			Destroy (col.gameObject);
+			coins += 1;
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D col){
@@ -101,6 +110,7 @@ public class PlayerController : MonoBehaviour {
 	public void CheckDeath(){
 		if (hearts < 1) {  
 			//Destroy (gameObject);
+			SoundManager.PlaySound ("death");
 			gameObject.active = false;
 			//trigger game over
 		}

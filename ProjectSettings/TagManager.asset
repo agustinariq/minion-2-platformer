@@ -8,6 +8,7 @@ TagManager:
   - platform
   - player
   - sprite
+  - coin
   layers:
   - Default
   - TransparentFX

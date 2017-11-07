@@ -25,6 +25,7 @@ public class FallingPlatform : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.CompareTag ("player")) {
+			SoundManager.PlaySound ("tremor");
 			Invoke ("Fall", fallRate);
 			Invoke ("Respawn", fallRate + respawnRate);
 		}
