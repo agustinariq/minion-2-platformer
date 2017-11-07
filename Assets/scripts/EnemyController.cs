@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour {
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 
 	}
-
+		
 	// Update is called once per frame
 	void FixedUpdate () {
 		float deltaSpeed = speed * Time.deltaTime;
@@ -29,6 +29,21 @@ public class EnemyController : MonoBehaviour {
 		if (transform.position == target.position) {
 			target.position = (target.position == startPosition) ? endPosition : startPosition;
 		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.tag == "player") {
+			float yOffset = 0.32f;
+			if (transform.position.y + yOffset < col.transform.position.y) { 
+				col.SendMessage ("EnemyJump");
+				Destroy (gameObject);
+			} else {
+				col.SendMessage ("EnemyKnockback", transform.position.x);
+				col.SendMessage ("TakeDamage");
+			}
+
+		}
+	
 	}
 
 	void spriteFlip(){

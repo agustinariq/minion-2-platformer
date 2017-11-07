@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public bool grounded;
 	public float jumpPower = 6.5f;
 	private bool jump;
+	public int hearts = 1;
 
 	private Rigidbody2D rigidBody;
 	private Animator animator;
@@ -29,6 +30,8 @@ public class PlayerController : MonoBehaviour {
 		HorizontalMomevent ();
 		LimitVelocity ();
 		FacingDirectrion ();
+		CheckDeath ();
+		Debug.Log (hearts);
 
 		if (jump) {
 			rigidBody.AddForce (Vector2.up * jumpPower, ForceMode2D.Impulse);
@@ -84,4 +87,26 @@ public class PlayerController : MonoBehaviour {
 		float limitedSpeed = Mathf.Clamp (rigidBody.velocity.x, -maxSpeed, maxSpeed);
 		rigidBody.velocity = new Vector2 (limitedSpeed, rigidBody.velocity.y);
 	}
+
+	public void EnemyJump(){
+		jump = true;
+	}
+
+	public void EnemyKnockback(float enemyPositionX){
+		//jump = true;
+		float side = Mathf.Sign (enemyPositionX - transform.position.x);
+		rigidBody.AddForce (Vector2.left * side * 10, ForceMode2D.Impulse);
+	}
+
+	public void CheckDeath(){
+		if (hearts < 1) {  
+			//Destroy (gameObject);
+			gameObject.active = false;
+			//trigger game over
+		}
+	}
+	public void TakeDamage(){
+			hearts -= 1;
+		}
+
 }
