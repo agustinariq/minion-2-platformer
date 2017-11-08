@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasController : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class CanvasController : MonoBehaviour {
 	public static GameObject GameOver;
 	public GameObject gameClearText;
 	public static GameObject GameClear;
+	public GameObject player;
+	public Text pointsText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +22,7 @@ public class CanvasController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		pointsText.text = "Points: " + player.GetComponent<PlayerController>().coins;
 
 	}
 
