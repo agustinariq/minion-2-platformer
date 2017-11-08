@@ -9,6 +9,8 @@ TagManager:
   - player
   - sprite
   - coin
+  - abyss
+  - clear
   layers:
   - Default
   - TransparentFX

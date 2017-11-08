@@ -11,9 +11,11 @@ public class PlayerController : MonoBehaviour {
 	private bool jump;
 	public int hearts = 1;
 	public int coins = 0;
+	public bool falling = false;
 
 	private Rigidbody2D rigidBody;
 	private Animator animator;
+	private Canvas canvas;
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 		LimitVelocity ();
 		FacingDirectrion ();
 		CheckDeath ();
-		Debug.Log (coins);
+		//Debug.Log (coins);
 
 		if (jump) {
 			SoundManager.PlaySound ("jump");
@@ -44,7 +46,13 @@ public class PlayerController : MonoBehaviour {
 		//Debug.Log (rigidBody.velocity.x);
 	}
 
-	void OnTriggerEnter2D(Collision2D col){
+	void OnCollisionEnter2D(Collision2D col){
+		if (col.gameObject.CompareTag ("abyss")) {
+			GameOver();	
+		}
+		if(col.gameObject.CompareTag("clear")){
+			GameClear();	
+		}
 		if (col.gameObject.CompareTag ("coin")) {
 			SoundManager.PlaySound ("coin");
 			Destroy (col.gameObject);
@@ -110,6 +118,7 @@ public class PlayerController : MonoBehaviour {
 	public void CheckDeath(){
 		if (hearts < 1) {  
 			//Destroy (gameObject);
+			GameOver();
 			SoundManager.PlaySound ("death");
 			gameObject.active = false;
 			//trigger game over
@@ -118,5 +127,14 @@ public class PlayerController : MonoBehaviour {
 	public void TakeDamage(){
 			hearts -= 1;
 		}
+
+	public void GameOver(){
+		CanvasController.ShowGameOverScreen();
+	}
+		
+	public void GameClear(){
+		CanvasController.ShowGameClearScreen();
+	}
+
 
 }
